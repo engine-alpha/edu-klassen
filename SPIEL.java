@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
- * @version     2.1 (2015-02-14)
+ * @version     2.2 (2015-06-18)
  */
  
 
@@ -273,6 +273,14 @@ public class SPIEL
     {
         anzeige.punkteRechtsSetzen(pr);
     }
+
+
+    /**
+     * Aendert die Farbe der Punktestandsanzeige
+     *
+     * @param farbe     Die neue Farbe der Puntkestandsanzeige
+     */
+    public void setzeFarbePunktestand(String farbe) { anzeige.setzeFarbePunktestand(farbe); }
     
      
     /**
