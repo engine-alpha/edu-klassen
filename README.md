@@ -14,7 +14,7 @@ und es steht die Funktion der Klassenkarte zur Verfügung.
 
 - Darüber hinaus legt man nur die Klassen hinein, die in diesem Projekt 
 gebraucht werden. Alle anderen kann man löschen. Es bestehen keine 
-Abhängigkeiten außer: WECHSELBILD hängt ab von BILD.
+Abhängigkeiten.
 
 - Jede Klasse mit grafischer Darstellung zieht automatisch ein Fenster 
 mit sich, in dem es gezeichnet werden. Dieses automatisch erscheinenede 

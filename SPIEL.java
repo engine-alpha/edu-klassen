@@ -1,25 +1,3 @@
-/*
- * Engine Alpha ist eine anfaengerorientierte 2D-Gaming Engine.
- *
- * Copyright (C) 2011  Michael Andonie und Mike Ganshorn
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * @version     2.2 (2015-06-18)
- */
- 
-
 import ea.*;
 import ea.edu.*;
 
@@ -34,7 +12,13 @@ import ea.edu.*;
  * Beim Konstruktor mit Parametern koennen die linken und rechten Punkte-Anzeigen sowie die 
  * Interaktion mit der Maus ein- bzw. ausgeschaltet werden.
  * 
- * @author Andonie  (nach Idee von Bendikt Lindemann und Mike Ganshorn)
+ * @author Andonie und Mike Ganshorn  (nach Idee von Bendikt Lindemann)
+ * 
+ * @version     2.3 (2017-04-11)
+ * 
+ * @changelog   2.3 statisches Attribut animationsManager hinzugefuegt
+ *                  dessen Methoden koennen nun wie in der Core-Engine aufgerufen werden
+ *                  Methode tasteGedrueckt( int taste )
  * 
  */
 public class SPIEL 
@@ -43,6 +27,7 @@ public class SPIEL
      * Die Anzeige des Spiels.
      */
     private static AnzeigeE anzeige;
+    //public static AnimationsManager animationsManager;
     
     /**
      * Dieser Zaehler ermoeglicht den Tik-Tak-Wechsel.
@@ -71,6 +56,7 @@ public class SPIEL
         //Zaehler fuer Tick, Tack, ...
         zaehler = 0;
         anzeige = new AnzeigeE(breite, hoehe);
+        //animationsManager = AnimationsManager.getAnimationsManager();
         
         //Punkteanzeige
         anzeige.punkteLinksSichtbarSetzen(punkteLinks);
@@ -87,7 +73,36 @@ public class SPIEL
         
         //Ticker
         //Alle 500 Millisekunden (=Jede halbe Sekunde) ein Tick
-        anzeige.tickerAnmelden(this, 500); 
+        //anzeige.tickerAnmelden(this, 500); 
+    }
+    
+    
+    
+    /**
+     * Erstellt ein einfaches Spiel ohne Anzeige und Maus.<br />
+     * Das Spiel hat somit Ticker und Tastatureingaben.
+     * 
+     * @param   breite      Breite des Spielfelds in Pixel
+     * @param   hoehe       Hoehe des Spielfelds in Pixel
+     * @param   maus        true, wenn ein Mauszeiger angezeigt werden soll, sonst false
+     */
+    public SPIEL( int breite , int hoehe , boolean maus ) 
+    {
+        this(breite, hoehe, false, false, maus);
+    }
+    
+    
+    
+    /**
+     * Erstellt ein einfaches Spiel ohne Anzeige und Maus.<br />
+     * Das Spiel hat somit Ticker und Tastatureingaben.
+     * 
+     * @param   breite      Breite des Spielfelds in Pixel
+     * @param   hoehe       Hoehe des Spielfelds in Pixel
+     */
+    public SPIEL( int breite , int hoehe ) 
+    {
+        this(breite, hoehe, false, false, false);
     }
     
     
@@ -98,7 +113,7 @@ public class SPIEL
      */
     public SPIEL() 
     {
-        this(808, 629, false, false, false);
+        this(800, 600, false, false, false);
     }
 
     
@@ -141,13 +156,13 @@ public class SPIEL
     /**
      * Wird bei jedem Tastendruck automatisch aufgerufen.
      * 
-     * @param   tastenkuerzel   Der int-Wert, der fuer die gedrueckte Taste steht.
-     *                          Details koennen in der <i>Tabelle aller 
-     *                          Tastaturkuerzel</i> abgelesen werden.
+     * @param   taste   Der int-Wert, der fuer die gedrueckte Taste steht.
+     *                  Details koennen in der <i>Tabelle aller 
+     *                  Tastaturkuerzel</i> abgelesen werden.
      */
-    public void tasteReagieren(int tastenkuerzel) 
+    public void tasteReagieren(int taste) 
     {
-        System.out.println("Taste mit Kuerzel " + tastenkuerzel + 
+        System.out.println("Taste mit Kuerzel " + taste + 
                 " wurde gedrueckt");
     }
     
@@ -205,7 +220,7 @@ public class SPIEL
      * @param   hotspotY    Die Y-Koordinate des Hotspots fuer das neue
      *                      Maus-Icon. (relativ im Icon)
      */
-    public void mausIconSetzen(String pfad, int hotspotX, int hotspotY) 
+    public void setzeMausIcon(String pfad, int hotspotX, int hotspotY) 
     {
         ea.edu.FensterE.getFenster().mausAnmelden(new Maus(new Bild(0,0,pfad), new Punkt(hotspotX, hotspotY)), true);
     }
@@ -214,7 +229,7 @@ public class SPIEL
     /**
      * Sorgt dafuer, dass sowohl der rechte als auch der linke Punktestand sichtbar ist.
      */
-    public void allePunkteSichtbar() 
+    public void setzeAllePunkteanzeigenSichtbar() 
     {
         anzeige.punkteLinksSichtbarSetzen(true);
         anzeige.punkteRechtsSichtbarSetzen(true);
@@ -224,7 +239,7 @@ public class SPIEL
     /**
      * Sorgt dafuer, dass nur der linke Punktestand sichtbar ist.
      */
-    public void nurRechtePunkteSichtbar() 
+    public void setzeNurRechtePunkteanzeigeSichtbar() 
     {
         anzeige.punkteLinksSichtbarSetzen(false);
         anzeige.punkteRechtsSichtbarSetzen(true);
@@ -234,7 +249,7 @@ public class SPIEL
     /**
      * Sorgt dafuer, dass nur der rechte Punktestand sichtbar ist.
      */
-    public void nurLinkePunkteSichtbar() 
+    public void setzeNurLinkePunkteanzeigeSichtbar() 
     {
         anzeige.punkteLinksSichtbarSetzen(true);
         anzeige.punkteRechtsSichtbarSetzen(false);
@@ -244,7 +259,7 @@ public class SPIEL
     /**
      * Sorgt dafuer, dass weder der rechte noch der linke Punktestand sichtbar ist.
      */
-    public void allePunkteUnsichtbar() 
+    public void setzeAllePunkteanzeigenUnsichtbar() 
     {
         anzeige.punkteLinksSichtbarSetzen(false);
         anzeige.punkteRechtsSichtbarSetzen(false);
@@ -257,7 +272,7 @@ public class SPIEL
      * 
      * @param   pl      Der neue linke Punktestand.
      */
-    public void punkteLinksSetzen(int pl) 
+    public void setzePunkteanzeigeLinks(int pl) 
     {
         anzeige.punkteLinksSetzen(pl);
     }
@@ -269,7 +284,7 @@ public class SPIEL
      * 
      * @param   pr      Der neue rechte Punktestand.
      */
-    public void punkteRechtsSetzen(int pr) 
+    public void setzePunkteanzeigeRechts(int pr) 
     {
         anzeige.punkteRechtsSetzen(pr);
     }
@@ -280,7 +295,10 @@ public class SPIEL
      *
      * @param farbe     Die neue Farbe der Puntkestandsanzeige
      */
-    public void setzeFarbePunktestand(String farbe) { anzeige.setzeFarbePunktestand(farbe); }
+    public void setzeFarbePunkteanzeige(String farbe) 
+    { 
+        anzeige.setzeFarbePunktestand(farbe); 
+    }
     
      
     /**
@@ -304,7 +322,7 @@ public class SPIEL
      * @param   pfad    Der Pfad der Bilddatei (jpg, bmp, png) des Bildes,
      *                  das benutzt werden soll. ZB: "hintergrund.jpg"
      */
-    public void hintergrundgrafikSetzen(String pfad) 
+    public void setzeHintergrundgrafik(String pfad) 
     {
         ea.edu.FensterE.getFenster().hintergrundSetzen(new Bild(0,0,pfad));
     }
@@ -325,5 +343,20 @@ public class SPIEL
         {
             e.printStackTrace();
         }
+    }
+    
+    
+    /**
+     * Ueberprueft, ob eine Taste gerade gedrueckt gehalten wird.
+     * 
+     * @param   taste   Der int-Wert, der fuer die gedrueckte Taste steht.
+     *                  Details koennen in der <i>Tabelle aller 
+     *                  Tastaturkuerzel</i> abgelesen werden. 
+     *                  
+     * @return  true, falls die Taste gedrueckt gehalten wird.                 
+     */
+    public boolean tasteGedrueckt(int taste)
+    {
+        return FensterE.getFenster().tasteGedrueckt(taste);
     }
 }

@@ -5,7 +5,16 @@ import ea.*;
  * Klasse FIGUR.
  *
  * @author      mike ganshorn
- * @version     1.0 ( 2015-05-08)
+ * @version     1.3 (2017-04-11)
+ * 
+ * @changelog   1.3 WECHSELBILD erbt von Knoten und damit von Raum
+ *                  verschiebenUm greift auf bewegen zurueck
+ *                  Methoden in allen Klassen vereinheitlicht (bis auf indiv. Methoden)
+ * 
+ *              1.2 Methode beruehrt(WECHSELBILD) hinzugefuegt
+ * 
+ *              1.1 Jump'n'Run-Physik hinzu gefuegt
+ *              
  *
  */
 public class FIGUR
@@ -33,9 +42,9 @@ public class FIGUR
      * @param   deltaX  Pixel in x-Richtung (wird bei Bedarf auf ganze Pixel gerundet)
      * @param   deltaY  Pixel in y-Richtung (wird bei Bedarf auf ganze Pixel gerundet)
      */
-    public void verschiebenUm(double deltaX, double deltaY)
+    public void verschiebenUm(float deltaX, float deltaY)
     {
-        super.bewegen( (int)( Math.round(deltaX) ), (int)( Math.round(deltaY) ) );
+        super.bewegen( deltaX , deltaY );
     }
 
 
@@ -126,9 +135,9 @@ public class FIGUR
      * @param   winkelAenderung     +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void drehenUm(int winkelAenderung)
+    public void drehenUm(float winkelAenderung)
     {
-        this.drehenRelativ( (double)( -winkelAenderung ) );
+        this.drehenRelativ( -winkelAenderung );
     }
 
 
@@ -139,9 +148,9 @@ public class FIGUR
      *                              +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void setzeDrehwinkel(int neuerDrehwinkel)
+    public void setzeDrehwinkel(float neuerDrehwinkel)
     {
-        this.drehenAbsolut( (double)( -neuerDrehwinkel ) );
+        this.drehenAbsolut( -neuerDrehwinkel );
     }
 
 
@@ -153,9 +162,9 @@ public class FIGUR
      *              +: wenn mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *              -: wenn mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public int nenneWinkel()
+    public float nenneWinkel()
     {
-        return (int)( -this.gibDrehung() );
+        return (float)( -this.gibDrehung() );
     }
 
 
@@ -164,9 +173,9 @@ public class FIGUR
      *
      * @return  Sinus des aktuellen Drehwinkels
      */
-    public double sin_Drehwinkel()
+    public float sin_Drehwinkel()
     {
-        return Math.sin( this.gibDrehung() * Math.PI / 180 );
+        return (float)( Math.sin( this.gibDrehung() * Math.PI / 180 ) );
     }
 
 
@@ -175,8 +184,35 @@ public class FIGUR
      *
      * @return  Cosinus des aktuellen Drehwinkels
      */
-    public double cos_Drehwinkel()
+    public float cos_Drehwinkel()
     {
-        return Math.cos( this.gibDrehung() * Math.PI / 180 );
+        return (float)( Math.cos( this.gibDrehung() * Math.PI / 180 ) );
     }
+    
+    
+    /**
+     * Diese Methode prueft, wie weit der Mittelpunkt dieses Rechtecks vom Mittelpunkt 
+     * eines anderen Grfik-Objekts in x-Richtung entfernt ist.
+     * @param   grafikObjekt    Das andere Grafik-Objekt
+     * @return  Abstand (in Pixeln) dieses Rechtecks vom anderen Grafik-Objekt in x-Richtung (>0, wenn dieses Rechteck rechts des anderen Grafik-Objekts liegt)
+     */
+    public int berechneAbstandX(Raum grafikObjekt)
+    {
+        return this.mittelPunkt().x() - grafikObjekt.mittelPunkt().x();
+    }
+    
+    
+    /**
+     * Diese Methode prueft, wie weit der Mittelpunkt dieses Kreises vom Mittelpunkt 
+     * eines anderen Grfik-Objekts in y-Richtung entfernt ist.
+     * @param   grafikObjekt    Das andere Grafik-Objekt
+     * @return  Abstand (in Pixeln) dieses Kreises vom anderen Grafik-Objekt in y-Richtung (>0, wenn dieser Kreis unterhalb des anderen Grafik-Objekts liegt)
+     */
+    public int berechneAbstandY(Raum grafikObjekt)
+    {
+        return this.mittelPunkt().x() - grafikObjekt.mittelPunkt().y();
+    }
+    
+    
+    
 }

@@ -5,9 +5,21 @@ import ea.*;
  * Klasse TEXT zum Darstellen von Texten in EDU-Engine
  * 
  * @author      mike ganshorn
- * @version     1.1 (2015-02-14)
  * 
- * @changelog   ---
+ * @version     1.3-beginner (2017-04-11)
+ *                  Methode:    setzeGroesse(...)
+ *                              setzeFarbe(...)
+ * 
+ * @changelog   1.3 WECHSELBILD erbt von Knoten und damit von Raum
+ *                  verschiebenUm greift auf bewegen zurueck
+ *                  Methoden in allen Klassen vereinheitlicht (bis auf indiv. Methoden)
+ *                  setzeInhalt(int) hinzugefuegt (bisher nur String)
+ *                  Konstruktor(int,int,int) hinzugefuegt (bisher nur int,int,String)
+ * 
+ *              1.2 Methode beruehrt(WECHSELBILD) hinzugefuegt
+ * 
+ *              1.1 Jump'n'Run-Physik hinzu gefuegt
+ *              
  */
 public class TEXT
 extends TextE 
@@ -19,12 +31,48 @@ extends TextE
      *
      * @param   x       x-Koordinate im Fenster (Pixel)
      * @param   y       y-Koordinate im Fenster (Pixel)
-     * @param   name    Name der Grafik-Datei (im Projekt-Ordner)
+     * @param   text    anzuzeigender Text
      */
-    public TEXT(int x, int y, String name) 
+    public TEXT(int x, int y, String text) 
     {
-        super(name);
-        this.mittelpunktSetzen(x, y);
+        super(text);
+        super.mittelpunktSetzen(x, y);
+    }
+    
+    
+    /**
+     * TEXT Konstruktor
+     *
+     * @param   x       x-Koordinate im Fenster (Pixel)
+     * @param   y       y-Koordinate im Fenster (Pixel)
+     * @param   zahl    anzuzeigende Zahl
+     */
+    public TEXT(int x, int y, int zahl) 
+    {
+        super(""+zahl);
+        super.mittelpunktSetzen(x, y);
+    }
+    
+    
+    /**
+     * Setzt den angezeigten Text neu.
+     *
+     * @param   text    Der neue Text
+     */
+    public void setzeInhalt(String text)
+    {
+        super.setzeInhalt(text);
+    }
+    
+    
+    /**
+     * Setzt den angezeigten Text neu.
+     *
+     * @param   text    Der neue Text
+     */
+    public void setzeInhalt(int zahl)
+    {
+        super.setzeInhalt(""+zahl);
     }
     
     
@@ -34,9 +82,9 @@ extends TextE
      * @param   deltaX  Pixel in x-Richtung (wird bei Bedarf auf ganze Pixel gerundet)
      * @param   deltaY  Pixel in y-Richtung (wird bei Bedarf auf ganze Pixel gerundet)
      */
-    public void verschiebenUm(double deltaX, double deltaY) 
+    public void verschiebenUm(float deltaX, float deltaY) 
     {
-        super.bewegen( (int)( Math.round(deltaX) ), (int)( Math.round(deltaY) ) );
+        super.bewegen( deltaX , deltaY );
     }
     
     
@@ -77,7 +125,7 @@ extends TextE
     
     
     /**
-     * Methode nenneMY
+     * Methode nenneMy
      *
      * @return  y-Koordinate des Mittelpunkts (Pixel)
      */
@@ -127,9 +175,9 @@ extends TextE
      * @param   winkelAenderung     +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void drehenUm(int winkelAenderung)
+    public void drehenUm(float winkelAenderung)
     {
-        this.drehenRelativ( (double)( -winkelAenderung ) );
+        this.drehenRelativ( -winkelAenderung );
     }
     
     
@@ -140,9 +188,9 @@ extends TextE
      *                              +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void setzeDrehwinkel(int neuerDrehwinkel)
+    public void setzeDrehwinkel(float neuerDrehwinkel)
     {
-        this.drehenAbsolut( (double)( -neuerDrehwinkel ) );
+        this.drehenAbsolut( -neuerDrehwinkel );
     }
     
     
@@ -154,9 +202,9 @@ extends TextE
      *              +: wenn mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *              -: wenn mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public int nenneWinkel()
+    public float nenneWinkel()
     {
-        return (int)( -this.gibDrehung() );
+        return (float)( -super.gibDrehung() );
     }
     
     
@@ -165,9 +213,9 @@ extends TextE
      *
      * @return  Sinus des aktuellen Drehwinkels
      */
-    public double sin_Drehwinkel()
+    public float sin_Drehwinkel()
     {
-        return Math.sin( this.gibDrehung() * Math.PI / 180 );
+        return (float)( Math.sin( super.gibDrehung() * Math.PI / 180 ) );
     }
     
     
@@ -176,9 +224,56 @@ extends TextE
      *
      * @return  Cosinus des aktuellen Drehwinkels
      */
-    public double cos_Drehwinkel()
+    public float cos_Drehwinkel()
     {
-        return Math.cos( this.gibDrehung() * Math.PI / 180 );
+        return (float)( Math.cos( this.gibDrehung() * Math.PI / 180 ) );
     }
+    
+    
+    /**
+     * Diese Methode prueft, wie weit der Mittelpunkt dieses Rechtecks vom Mittelpunkt 
+     * eines anderen Grfik-Objekts in x-Richtung entfernt ist.
+     * @param   grafikObjekt    Das andere Grafik-Objekt
+     * @return  Abstand (in Pixeln) dieses Rechtecks vom anderen Grafik-Objekt in x-Richtung (>0, wenn dieses Rechteck rechts des anderen Grafik-Objekts liegt)
+     */
+    public int berechneAbstandX(Raum grafikObjekt)
+    {
+        return super.mittelPunkt().x() - grafikObjekt.mittelPunkt().x();
+    }
+    
+    
+    /**
+     * Diese Methode prueft, wie weit der Mittelpunkt dieses Kreises vom Mittelpunkt 
+     * eines anderen Grfik-Objekts in y-Richtung entfernt ist.
+     * @param   grafikObjekt    Das andere Grafik-Objekt
+     * @return  Abstand (in Pixeln) dieses Kreises vom anderen Grafik-Objekt in y-Richtung (>0, wenn dieser Kreis unterhalb des anderen Grafik-Objekts liegt)
+     */
+    public int berechneAbstandY(Raum grafikObjekt)
+    {
+        return super.mittelPunkt().x() - grafikObjekt.mittelPunkt().y();
+    }
+    
+    
 
+    /**
+     * Setzt die Schriftgroesse auf einen neuen Wert.
+     *
+     * @param   schriftgroesse  neue Schriftgroesse
+     */
+    public void setzeGroesse( int schriftgroesse )
+    {
+        super.groesseSetzen( schriftgroesse );
+    }
+    
+    
+    
+    /**
+     * Setzt die Schriftfarbe neu.
+     *
+     * @param   schriftfarbe    Die neue Schriftfarbe
+     */
+    public void setzeFarbe( String schriftfarbe )
+    {
+        super.farbeSetzen( schriftfarbe );
+    }
 }

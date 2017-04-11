@@ -1,9 +1,17 @@
 /** @author     mike ganshorn + michael andonie
  * 
- *  @Version    2.1 (2015-02-14)
+ *  @Version    2.4-beginner (2017-04-11)
  *  
- *  @Changelog  Bei Aenderung der Breite/Hoehe bleibt der Mittelpunkt erhalten
- *              Keine Abhaengigkeit mehr zwischen den alpha-Formen
+ *  @Changelog  2.4 WECHSELBILD erbt von Knoten und damit von Raum
+ *                  Methoden in allen Klassen vereinheitlicht (bis auf indiv. Methoden)
+ *              
+ *              2.3 Methode beruehrt(WECHSELBILD) hinzugefuegt
+ *  
+ *              2.2 Jump'n'Run-Physik hinzu gefuegt
+ *  
+ *              2.1 Bei Aenderung der Breite/Hoehe bleibt der Mittelpunkt erhalten
+ *                  Keine Abhaengigkeit mehr zwischen den alpha-Formen
+ *              
 */
 
 import ea.edu.KreisE;
@@ -34,12 +42,12 @@ public class KREIS
     /**
      * x-Koordinate des Mittelpunkts
      */
-    private int M_x;
+    private float M_x;
     
     /**
      * y-Koordinate des Mittelpunkts
      */
-    private int M_y;
+    private float M_y;
     
     
     /**
@@ -66,12 +74,13 @@ public class KREIS
         super.radiusSetzen(this.radius);
         this.M_x = 350;
         this.M_y = 350;
-        super.mittelpunktSetzen(this.M_x, this.M_y);
+        super.mittelpunktSetzen((int)this.M_x, (int)this.M_y);
     }
     
     
      /**
      * Setzt die Farbe dieses Kreises neu.
+     * 
      * @param   farbeNeu    Diese Farbe erhaelt der Kreis (z.B. "Rot")
      */
     public void setzeFarbe(String farbeNeu) 
@@ -79,28 +88,31 @@ public class KREIS
         this.farbe = farbeNeu;
         super.farbeSetzen(farbe);
     }
+   
     
     /**
      * Setzt den Mittelpunkt dieses Kreises neu.
-     * @param m_x   Die X-Koordinate des Mittelpunktes.
-     * @param m_y   Die Y-Koordinate des Mittelpunktes.
+     * 
+     * @param x   Die X-Koordinate des Mittelpunktes.
+     * @param y   Die Y-Koordinate des Mittelpunktes.
      */
-    public void setzeMittelpunkt(int m_x, int m_y) 
+    public void setzeMittelpunkt(int x, int y) 
     {
-        this.M_x = m_x;
-        this.M_y = m_y;
-        super.mittelpunktSetzen(m_x, m_y);
+        this.M_x = x;
+        this.M_y = y;
+        super.mittelpunktSetzen(x, y);
     }
     
     
     /**
      * Setzt den Radius dieses Kreises neu.
+     * 
      * @param   radius  Der neue Radius (in Pixel)
      */
     public void setzeRadius(int radius) 
     {
-        int x = this.nenneM_x();
-        int y = this.nenneM_y();
+        int x = (int)( this.nenneMx() );
+        int y = (int)( this.nenneMy() );
         this.radius = radius;
         super.radiusSetzen(radius);
         super.mittelpunktSetzen(x, y);
@@ -109,6 +121,7 @@ public class KREIS
     
     /**
      * Setzt, ob dieser Kreis sichtbar sein soll.
+     * 
      * @param   sichtbarNeu Ist dieser Wert <code>true</code>, ist nach dem Aufruf dieser Methode dieser Kreis 
      *          sichtbar. Ist dieser Wert <code>false</code>, so ist nach dem Aufruf dieser Methode dieser Kreis unsichtbar.
      */
@@ -121,14 +134,15 @@ public class KREIS
     
     /**
      * Verschiebt diesen Kreis um eine Verschiebung - angegeben durch ein "Delta X" und "Delta Y".
+     * 
      * @param   deltaX  Der X Anteil dieser Verschiebung. Positive Werte verschieben nach rechts, negative nach links.
      * @param   deltaY  Der Y Anteil dieser Verschiebung. Positive Werte verschieben nach unten, negative nach oben.
      */
-    public void verschiebenUm(int deltaX, int deltaY) 
+    public void verschiebenUm(float deltaX, float deltaY) 
     {
         this.M_x = this.M_x + deltaX;
         this.M_y = this.M_y + deltaY;
-        this.verschieben(deltaX, deltaY);
+        this.bewegen(deltaX, deltaY);
     }
     
     
@@ -136,6 +150,7 @@ public class KREIS
      * Methode beruehrt
      *
      * @param   r   Ein anderes BILD, RECHTECK, KREIS, DREIECK, ...
+     * 
      * @return  true, wenn sich die beiden Objekte ueberschneiden
      */
     public boolean beruehrt(Raum r) 
@@ -145,27 +160,44 @@ public class KREIS
     
     
     /**
-     * Diese Methode gibt die x-Koordinate des Mittelpunkts dieses Kreises zurueck
+     * Methode beinhaltetPunkt
+     *
+     * @param   x   x-Koordinate des Punkts (Pixel)
+     * @param   y   x-Koordinate des Punkts (Pixel)
+     * 
+     * @return      true, wenn Punkt innerhalb der Grafik
+     */
+    public boolean beinhaltetPunkt(int x, int y) 
+    {
+        return super.beinhaltet( new ea.Punkt(x, y) );
+    }
+    
+    
+    /**
+     * Diese Methode gibt die x-Koordinate des Mittelpunkts dieses Kreises zurueck.
+     * 
      * @return  Die aktuelle x-Koordinate des Mittelpunktes dieses Kreises
      */
-    public int nenneM_x()
+    public float nenneMx()
     {
         return this.M_x;
     }
     
     
     /**
-     * Diese Methode gibt die y-Koordinate des Mittelpunkts dieses Kreises zurueck
+     * Diese Methode gibt die y-Koordinate des Mittelpunkts dieses Kreises zurueck.
+     * 
      * @return  Die aktuelle y-Koordinate des Mittelpunktes dieses Kreises
      */
-    public int nenneM_y()
+    public float nenneMy()
     {
         return this.M_y;
     }
     
     
     /**
-     * Diese Methode gibt den Radius dieses Kreises zurueck
+     * Diese Methode gibt den Radius dieses Kreises zurueck.
+     * 
      * @return  Der aktuelle Radius dieses Kreises
      */
     public int nenneRadius()
@@ -175,7 +207,8 @@ public class KREIS
     
     
     /**
-     * Diese Methode gibt die Farbe dieses Kreises zurueck
+     * Diese Methode gibt die Farbe dieses Kreises zurueck.
+     * 
      * @return  Die aktuelle Farbe dieses Kreises
      */
     public String nenneFarbe()
@@ -185,7 +218,8 @@ public class KREIS
     
     
     /**
-     * Diese Methode gibt die Sichtbarkeit dieses Kreises zurueck
+     * Diese Methode gibt die Sichtbarkeit dieses Kreises zurueck.
+     * 
      * @return  Die aktuelle Sichtbarkeit dieses Kreises
      */
     public boolean nenneSichtbar()
@@ -197,24 +231,91 @@ public class KREIS
     /**
      * Diese Methode prueft, wie weit der Mittelpunkt dieses Rechtecks vom Mittelpunkt 
      * eines anderen Grfik-Objekts in x-Richtung entfernt ist.
+     * 
      * @param   grafikObjekt    Das andere Grafik-Objekt
+     * 
      * @return  Abstand (in Pixeln) dieses Rechtecks vom anderen Grafik-Objekt in x-Richtung (>0, wenn dieses Rechteck rechts des anderen Grafik-Objekts liegt)
      */
     public int berechneAbstandX(Raum grafikObjekt)
     {
-        return this.M_x - grafikObjekt.mittelPunkt().x();
+        return (int)( this.M_x - grafikObjekt.mittelPunkt().x() );
     }
     
     
     /**
      * Diese Methode prueft, wie weit der Mittelpunkt dieses Kreises vom Mittelpunkt 
      * eines anderen Grfik-Objekts in y-Richtung entfernt ist.
+     * 
      * @param   grafikObjekt    Das andere Grafik-Objekt
+     * 
      * @return  Abstand (in Pixeln) dieses Kreises vom anderen Grafik-Objekt in y-Richtung (>0, wenn dieser Kreis unterhalb des anderen Grafik-Objekts liegt)
      */
     public int berechneAbstandY(Raum grafikObjekt)
     {
-        return this.M_y - grafikObjekt.mittelPunkt().y();
+        return (int)( this.M_y - grafikObjekt.mittelPunkt().y() );
     }
-        
+    
+    
+    /**
+     * liefert den Sinus des Drehwinkels der Grafik
+     *
+     * @return  Sinus des aktuellen Drehwinkels
+     */
+    public float sin_Drehwinkel()
+    {
+        return (float)( Math.sin( this.gibDrehung() * Math.PI / 180 ) );
+    }
+    
+    
+    /**
+     * liefert den Cosinus des Drehwinkels der Grafik
+     *
+     * @return  Cosinus des aktuellen Drehwinkels
+     */
+    public float cos_Drehwinkel()
+    {
+        return (float)( Math.cos( this.gibDrehung() * Math.PI / 180 ) );
+    }
+    
+    
+    /**
+     * Dreht die Grafik um einen Winkel
+     *
+     * @param   winkelAenderung     +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
+     *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
+     */
+    public void drehenUm(float winkelAenderung)
+    {
+        this.drehenRelativ( -winkelAenderung );
+    }
+    
+    
+    /**
+     * Setzt den Drehwinkel auf eine absoluten neuen Wert
+     *
+     * @param   neuerDrehwinkel     der neue Drehwinkel
+     *                              +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
+     *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
+     */
+    public void setzeDrehwinkel(float neuerDrehwinkel)
+    {
+        this.drehenAbsolut( -neuerDrehwinkel );
+    }
+    
+    
+    /**
+     * Nennt den Winkel, um den die Grafik gedreht wurde
+     *
+     * @return      der Winkel, um den die Grafik gedreht wurde
+     *              0: wenn nicht gedreht
+     *              +: wenn mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
+     *              -: wenn mathematisch negativer Drehsinn (im Uhrzeigersinn)
+     */
+    public float nenneWinkel()
+    {
+        return (float)( -this.gibDrehung() );
+    }
+    
+    
+
 }

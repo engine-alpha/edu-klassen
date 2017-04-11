@@ -2,13 +2,13 @@ import ea.edu.FensterE;
 
 /**
  * Klasse DIALOG der EDU-Variante der Engine Alpha. 
- * Vier statische Methoden realisieren Dialog-Fenster zur Kommunikation mit dem Spieler. 
- * Die Methoden setzen ein existierendes Spiele-Fenster voraus. Solle dieses noch nicht 
+ * Vier Methoden realisieren Dialog-Fenster zur Kommunikation mit dem Spieler. 
+ * Die Methoden setzen ein existierendes Spiele-Fenster voraus. Sollte dieses noch nicht 
  * instanziiert worden sein, so wird es beim Methoden-Aufruf erzeugt.
  * 
  * @author      mike ganshorn
  * 
- * @version     1.0 (2015-02-15)
+ * @version     2.0 (2017-04-11)
  */
 public class DIALOG
 {
@@ -16,7 +16,7 @@ public class DIALOG
     /**
      * Konstruktor der Klasse DIALOG
      */
-    private DIALOG()
+    public DIALOG()
     {
         // nichts
     }
@@ -31,7 +31,7 @@ public class DIALOG
      * 
      * @return  'true', wenn JA geklickt wurde, sonst 'false'
      */
-    public static boolean frage(String frage)
+    public boolean frage(String frage)
     {
         return FensterE.getFenster().frage(frage);
     }
@@ -45,7 +45,7 @@ public class DIALOG
      * @param   nachricht       Die Nachricht, die an den Spieler gestellt werden soll.
      * 
      */
-    public static void nachricht(String nachricht)
+    public void nachricht(String nachricht)
     {
         FensterE.getFenster().nachrichtSchicken(nachricht);
     }
@@ -60,7 +60,7 @@ public class DIALOG
      * @param   frage   Die Frage, die an den Spieler gestellt werden soll
      * @return  Der Text, den der Spieler in die Eingabe-Zeile schreibt. ("" bei leerer Eingabe-Zeile)
      */
-    public static String eingabe(String frage)
+    public String eingabe(String frage)
     {
         return FensterE.getFenster().eingabeFordern(frage);
     }
@@ -76,7 +76,7 @@ public class DIALOG
      * @param   punkte          Das Array mit den Punkte-Staenden fuer die Highscore-Anzeige
      * @param   fensterTitel    Der gewuenschte Text im Fenster-Kopf
      */
-    public static void highscoreAnzeige(String[] namen, int[] punkte, String fensterTitel)
+    public void highscoreAnzeige(String[] namen, int[] punkte, String fensterTitel)
     {
         FensterE.getFenster().highscoreAnzeigen(namen, punkte, fensterTitel);
     }
