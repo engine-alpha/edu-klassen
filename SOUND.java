@@ -19,9 +19,9 @@ extends Sound
      * 
      * @param   datei   Name der Datei (mit Endung) - muss im Projekt-Ordner liegen
      */
-    public SOUND(String datei)
+    public SOUND( String datei )
     {
-        super(datei);
+        super( datei );
     }
 
     

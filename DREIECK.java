@@ -97,7 +97,7 @@ public class DREIECK
      * @param   Cx  Die x-Koordinate der dritten Ecke
      * @param   Cy  Die y-Koordinate der dritten Ecke
      */
-    public DREIECK(float Ax, float Ay, float Bx, float By, float Cx, float Cy) 
+    public DREIECK( float Ax , float Ay , float Bx , float By , float Cx , float Cy ) 
     {
         this.A_x = Ax;
         this.A_y = Ay;
@@ -107,11 +107,11 @@ public class DREIECK
         this.C_y = 50;
         this.M_x = ( Math.min(Math.min(Ax,Bx),Cx) + Math.max(Math.max(Ax,Bx),Cx) ) / 2 ;
         this.M_y = ( Math.min(Math.min(Ay,By),Cy) + Math.max(Math.max(Ay,By),Cy) ) / 2 ;
-        super.punkteSetzen((int)Ax, (int)Ay, (int)Bx, (int)By, (int)Cx, (int)Cy);
+        super.punkteSetzen( (int)Ax , (int)Ay , (int)Bx , (int)By , (int)Cx , (int)Cy );
         this.sichtbar = true;
-        super.sichtbarSetzen(true);
+        super.sichtbarSetzen( true);
         this.farbe = "Gruen";
-        super.farbeSetzen(this.farbe);
+        super.farbeSetzen( this.farbe );
     }
     
     
@@ -125,7 +125,7 @@ public class DREIECK
      * @param   Cx  Die X-Koordinate des Punktes C
      * @param   Cy  Die Y-Koordinate des Punktes C
      */
-    public void setzeEcken(float Ax, float Ay, float Bx, float By, float Cx, float Cy) 
+    public void setzeEcken( float Ax , float Ay , float Bx , float By , float Cx , float Cy ) 
     {
         this.A_x = Ax;
         this.A_y = Ay;
@@ -144,10 +144,10 @@ public class DREIECK
      * 
      * @param   farbeNeu    Diese Farbe erhaelt das Dreieck (z.B. "Rot")
      */
-    public void setzeFarbe(String farbeNeu) 
+    public void setzeFarbe( String farbeNeu ) 
     {
         this.farbe = farbeNeu;
-        super.farbeSetzen(farbe);
+        super.farbeSetzen( farbe );
     }
     
     
@@ -159,9 +159,10 @@ public class DREIECK
      * so ist der Mittelpunkt <b>dieses Rechtecks</b> der, der hier neu gesetzt wird.
      * 
      * @param   x Die X-Koordinate des neuen Mittelpunktes
+     * 
      * @param   y Die Y-Koordinate des neuen Mittelpunktes
      */
-    public void setzeMittelpunkt(int x, int y) 
+    public void setzeMittelpunkt( int x , int y ) 
     {
         int deltaX = (int)(x - this.M_x);
         int deltaY = (int)(y - this.M_y);
@@ -173,7 +174,7 @@ public class DREIECK
         this.C_y = this.C_y + deltaY;
         this.M_x = x;
         this.M_y = y;
-        super.mittelpunktSetzen(x, y);
+        super.mittelpunktSetzen( x , y );
     }
     
     
@@ -184,10 +185,10 @@ public class DREIECK
      *          dieses Dreieck sichtbar. Ist dieser Wert <code>false</code>, so ist nach dem Aufruf 
      *          dieser Methode dieses Dreieck unsichtbar.
      */
-    public void setzeSichtbar(boolean sichtbarNeu) 
+    public void setzeSichtbar( boolean sichtbarNeu ) 
     {
         this.sichtbar = sichtbarNeu;
-        super.sichtbarSetzen(sichtbarNeu);
+        super.sichtbarSetzen( sichtbarNeu );
     }
     
     
@@ -195,9 +196,10 @@ public class DREIECK
      * Verschiebt dieses Dreieck um eine Verschiebung - angegeben durch ein "Delta X" und "Delta Y".
      * 
      * @param   deltaX  Der X Anteil dieser Verschiebung. Positive Werte verschieben nach rechts, negative nach links.
+     * 
      * @param   deltaY  Der Y Anteil dieser Verschiebung. Positive Werte verschieben nach unten, negative nach oben.
      */
-    public void verschiebenUm(float deltaX, float deltaY) 
+    public void verschiebenUm( float deltaX , float deltaY ) 
     {
         this.A_x = this.A_x + deltaX;
         this.A_y = this.A_y + deltaY;
@@ -207,7 +209,7 @@ public class DREIECK
         this.C_y = this.C_y + deltaY;
         this.M_x = this.M_x + deltaX;
         this.M_y = this.M_y + deltaY;
-        super.bewegen(deltaX, deltaY);
+        super.bewegen( deltaX , deltaY );
     }
     
     
@@ -218,9 +220,9 @@ public class DREIECK
      * 
      * @return  true, wenn sich die beiden Objekte ueberschneiden
      */
-    public boolean beruehrt(Raum r) 
+    public boolean beruehrt( Raum r ) 
     {
-        return super.schneidet(r);
+        return super.schneidet( r );
     }
     
     
@@ -233,7 +235,7 @@ public class DREIECK
      */
     public boolean beinhaltetPunkt(int x, int y) 
     {
-        return super.beinhaltet( new ea.Punkt(x, y) );
+        return super.beinhaltet( new ea.Punkt(x,y) );
     }
     
     
@@ -242,9 +244,9 @@ public class DREIECK
      * 
      * @return  Die aktuelle x-Koordinate des Mittelpunktes dieses Dreiecks
      */
-    public float nenneMx()
+    public int nenneMx()
     {
-        return this.M_x;
+        return (int)( Math.round(this.M_x) );
     }
     
     
@@ -253,9 +255,9 @@ public class DREIECK
      * 
      * @return  Die aktuelle y-Koordinate des Mittelpunktes dieses Kreises
      */
-    public float nenneMy()
+    public int nenneMy()
     {
-        return this.M_y;
+        return (int)( Math.round(this.M_y) );
     }
     
     
@@ -289,7 +291,7 @@ public class DREIECK
      * 
      * @return  Abstand (in Pixeln) dieses Rechtecks vom anderen Grafik-Objekt in x-Richtung (>0, wenn dieses Rechteck rechts des anderen Grafik-Objekts liegt)
      */
-    public int berechneAbstandX(Raum grafikObjekt)
+    public int berechneAbstandX( Raum grafikObjekt )
     {
         return (int)( this.M_x - grafikObjekt.mittelPunkt().x() );
     }
@@ -303,7 +305,7 @@ public class DREIECK
      * 
      * @return  Abstand (in Pixeln) dieses Dreiecks vom anderen Grafik-Objekt in y-Richtung (>0, wenn dieses Dreieck unterhalb des anderen Grafik-Objekts liegt)
      */
-    public int berechneAbstandY(Raum grafikObjekt)
+    public int berechneAbstandY( Raum grafikObjekt )
     {
         return (int)( this.M_y - grafikObjekt.mittelPunkt().y() );
     }
@@ -337,7 +339,7 @@ public class DREIECK
      * @param   winkelAenderung     +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void drehenUm(float winkelAenderung)
+    public void drehenUm( float winkelAenderung )
     {
         this.drehenRelativ( -winkelAenderung );
     }
@@ -350,7 +352,7 @@ public class DREIECK
      *                              +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void setzeDrehwinkel(float neuerDrehwinkel)
+    public void setzeDrehwinkel( float neuerDrehwinkel )
     {
         this.drehenAbsolut( -neuerDrehwinkel );
     }
@@ -368,7 +370,6 @@ public class DREIECK
     {
         return (float)( -this.gibDrehung() );
     }
-    
 
     
 }

@@ -14,7 +14,8 @@ public class DIALOG
 {
 
     /**
-     * Konstruktor der Klasse DIALOG
+     * Konstruktor der Klasse DIALOG. 
+     * Ein Dialog-Objekt kann diverse Dialog-Fenster erzeugen.
      */
     public DIALOG()
     {
@@ -31,9 +32,9 @@ public class DIALOG
      * 
      * @return  'true', wenn JA geklickt wurde, sonst 'false'
      */
-    public boolean frage(String frage)
+    public boolean frage( String frage )
     {
-        return FensterE.getFenster().frage(frage);
+        return FensterE.getFenster().frage( frage );
     }
     
     
@@ -45,9 +46,9 @@ public class DIALOG
      * @param   nachricht       Die Nachricht, die an den Spieler gestellt werden soll.
      * 
      */
-    public void nachricht(String nachricht)
+    public void nachricht( String nachricht )
     {
-        FensterE.getFenster().nachrichtSchicken(nachricht);
+        FensterE.getFenster().nachrichtSchicken( nachricht );
     }
     
     
@@ -58,11 +59,12 @@ public class DIALOG
      * VORSICHT! Das Spiel sollte vorher angehalten werden, da es sonst verdeckt weiter laeuft.
      *
      * @param   frage   Die Frage, die an den Spieler gestellt werden soll
+     * 
      * @return  Der Text, den der Spieler in die Eingabe-Zeile schreibt. ("" bei leerer Eingabe-Zeile)
      */
-    public String eingabe(String frage)
+    public String eingabe( String frage )
     {
-        return FensterE.getFenster().eingabeFordern(frage);
+        return FensterE.getFenster().eingabeFordern( frage );
     }
     
     
@@ -73,11 +75,13 @@ public class DIALOG
      * VORSICHT! Das Spiel sollte vorher angehalten werden, da es sonst verdeckt weiter laeuft.
      *
      * @param   namen           Das Array mit den Spieler-Namen fuer die Highscore-Anzeige
+     * 
      * @param   punkte          Das Array mit den Punkte-Staenden fuer die Highscore-Anzeige
+     * 
      * @param   fensterTitel    Der gewuenschte Text im Fenster-Kopf
      */
-    public void highscoreAnzeige(String[] namen, int[] punkte, String fensterTitel)
+    public void highscoreAnzeige( String[] namen , int[] punkte , String fensterTitel )
     {
-        FensterE.getFenster().highscoreAnzeigen(namen, punkte, fensterTitel);
+        FensterE.getFenster().highscoreAnzeigen( namen , punkte , fensterTitel );
     }
 }

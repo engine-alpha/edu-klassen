@@ -30,10 +30,12 @@ extends Knoten
      * Konstruktor der Klasse WECHSELBILD.
      * 
      * @param   x           x-Koordinate des Mittelpunkts
+     * 
      * @param   y           y-Koordinate des Mittelpunkts
+     * 
      * @param   String...   Ein oder mehrere Dateinamen durch Kommata getrennt
      */
-    public WECHSELBILD(int x, int y, String... dateien)
+    public WECHSELBILD( int x , int y , String... dateien )
     {
         this.anz_Bilder = dateien.length;
         this.bilder = new BildE[this.anz_Bilder];
@@ -41,16 +43,16 @@ extends Knoten
         for ( int i=0 ; i<this.anz_Bilder ; i++ )
         {
             this.bilder[i] = new BildE( x , y , dateien[i] );
-            this.bilder[i].sichtbarSetzen(false);
-            this.add(this.bilder[i]);
+            this.bilder[i].sichtbarSetzen( false );
+            this.add( this.bilder[i] );
         }
-        this.setzeMittelpunkt(x, y);
+        this.setzeMittelpunkt( x , y );
         
 
-        this.bilder[0].sichtbarSetzen(true);
+        this.bilder[0].sichtbarSetzen( true );
         this.akt_BildNr = 0;
 
-        FensterE.getFenster().wurzel.add(this);
+        FensterE.getFenster().wurzel.add( this );
     }
 
     
@@ -61,9 +63,9 @@ extends Knoten
      */
     public void wechseln()
     {
-        this.bilder[this.akt_BildNr].sichtbarSetzen(false);
+        this.bilder[this.akt_BildNr].sichtbarSetzen( false );
         this.akt_BildNr = (this.akt_BildNr + 1) % this.anz_Bilder;
-        this.bilder[this.akt_BildNr].sichtbarSetzen(true);
+        this.bilder[this.akt_BildNr].sichtbarSetzen( true );
     }
     
 
@@ -75,204 +77,136 @@ extends Knoten
      */
     public void wechseln(int bildNr)
     {
-        this.bilder[this.akt_BildNr].sichtbarSetzen(false);
+        this.bilder[this.akt_BildNr].sichtbarSetzen( false );
         this.akt_BildNr = bildNr % this.anz_Bilder;
-        this.bilder[this.akt_BildNr].sichtbarSetzen(true);
+        this.bilder[this.akt_BildNr].sichtbarSetzen( true );
     }
     
     
-//     /**
-//      * Setzt das Bild mit dem Index i sichtbar, alle anderen unsichtbar.
-//      *
-//      * @param   i   Der Index des bildes, das sichtbar gesetzt werden soll
-//      */
-//     public void zeigeBild(int i)
-//     {
-//         for ( int z=0 ; z<this.bilder.length ; z++ )
-//         {
-//             if ( z == i )
-//             {
-//                 this.bilder[z].sichtbarSetzen(true);
-//             }
-//             else
-//             {
-//                 this.bilder[z].sichtbarSetzen(false);
-//             }
-//         }
-//     }
-
-    
     /**
-     * Berechnet den Abstand von Mittelpunkt zu Mittelpunkt zu einem anderen Objekt in Pixeln. 
+     * Nennt die Nummer des aktuellen Bilds (beginnend mit 0)
      *
-     * @param   grafikObjekt    Das andere Grafik-Objekt
-     * 
-     * @return  x-Abstand der Mittelpunkte in Pixeln. 
-     *          '>0' bedeutet, dass dieses Objekt rechts vom anderen liegt. 
+     * @return      Die Nummer des aktuellen Bilds (beginnend mit 0)
      */
-    public int berechneAbstandX(Raum grafikObjekt)
+    public int nenneBildNummer()
     {
-        return this.bilder[this.akt_BildNr].mittelPunkt().x() - grafikObjekt.mittelPunkt().x();
+        return this.akt_BildNr;
     }
-
+    
     
     /**
-     * Berechnet den Abstand von Mittelpunkt zu Mittelpunkt zu einem anderen Objekt in Pixeln. 
+     * Verschiebt das Objekt um die angegebenen Pixel. 
      *
-     * @param   grafikObjekt    Das andere Grafik-Objekt
+     * @param   deltaX  Pixel in x-Richtung (wird bei Bedarf auf ganze Pixel gerundet)
      * 
-     * @return  y-Abstand der Mittelpunkte in Pixeln. 
-     *          '>0' bedeutet, dass dieses Objekt unter dem anderen liegt. 
+     * @param   deltaY  Pixel in y-Richtung (wird bei Bedarf auf ganze Pixel gerundet)
      */
-    public int berechneAbstandY(Raum grafikObjekt)
+    public void verschiebenUm( float deltaX , float deltaY ) 
     {
-        return this.bilder[this.akt_BildNr].mittelPunkt().y() - grafikObjekt.mittelPunkt().y();
+        super.bewegen( deltaX , deltaY );
+    }
+    
+    
+    /**
+     * Prueft, ob ein anderes Grafik-Objekt beruehrt wird. 
+     *
+     * @param   r   Ein anderes BILD, RECHTECK, KREIS, DREIECK, ...
+     * 
+     * @return  true, wenn sich die beiden Objekte ueberschneiden
+     */
+    public boolean beruehrt( Raum r ) 
+    {
+        return super.schneidet( r );
     }
 
     
     /**
-     * Prueft, ob dieses Grafik-Objekt ein anderes beruehrt. 
-     *
-     * @param   grafikObjekt    Das andere Grafik-Objekt
-     * 
-     * @return  Der Rückgabewert
-     */
-    public boolean beruehrt(Raum grafikObjekt)
-    {
-        return this.bilder[this.akt_BildNr].schneidet(grafikObjekt);
-//         return grafikObjekt.schneidet(this);
-    }
-    
-    
-    /**
-     * Methode beinhaltetPunkt
+     * Prueft, ob das Objekt einen bestimmten Punkt (in Pixel-Koordinaten) beinhaltet. 
      *
      * @param   x   x-Koordinate des Punkts (Pixel)
+     * 
      * @param   y   x-Koordinate des Punkts (Pixel)
      * 
      * @return      true, wenn Punkt innerhalb der Grafik
      */
-    public boolean beinhaltetPunkt(int x, int y) 
+    public boolean beinhaltetPunkt( int x , int y ) 
     {
-        return this.bilder[this.akt_BildNr].beinhaltet( new Punkt(x, y) );
-//         return super.beinhaltet( new Punkt(x, y) );
+        return super.beinhaltet( new Punkt(x,y) );
     }
-
+    
     
     /**
-     * Nennt die x-Koordinate des Mittelpunkts dieses Grafik-Objekts. 
+     * Setzt den Mittelpunkt des Objekts auf einen (in Pixel-Koordinaten) anzugebenden Punkt. 
      *
-     * @return  x-Koordinate des Mittelpunkts dieses Grafik-Objekts
+     * @param   x   x-Koordinate des Mittelpunkts (Pixel)
+     * 
+     * @param   y   y-Koordinate des Mittelpunkts (Pixel)
      */
-    public float nenneMx()
+    public void setzeMittelpunkt( int x , int y ) 
     {
-        return this.bilder[this.akt_BildNr].mittelPunkt().x();
-//         return this.mittelPunkt().x();
+        super.mittelpunktSetzen( x , y );
     }
-
+    
     
     /**
-     * Nennt die y-Koordinate des Mittelpunkts dieses Grafik-Objekts. 
+     * Nennt die x-Koordinate (in Pixel) des Mittelpunkts dieses Objekts. 
      *
-     * @return  y-Koordinate des Mittelpunkts dieses Grafik-Objekts
+     * @return  x-Koordinate des Mittelpunkts (Pixel)
      */
-    public float nenneMy()
+    public int nenneMx() 
     {
-        return this.bilder[this.akt_BildNr].mittelPunkt().y();
-//         return this.mittelPunkt().y();
+        return super.zentrum().x();
     }
-
+    
     
     /**
-     * Gibt an, ob dieses Grafik-Objekt im Moment sichtbar ist. 
+     * Nennt die y-Koordinate (in Pixel) des Mittelpunkts dieses Objekts. 
      *
-     * @return  'true', wenn sichtbar; 'false', wenn unsichtbar
+     * @return  y-Koordinate des Mittelpunkts (Pixel)
+     */
+    public int nenneMy() 
+    {
+        return super.zentrum().y();
+    }
+    
+    
+    /**
+     * Macht das Objekt sichtbar / unsichtbar. 
+     *
+     * @param   sichtbarNeu     true, wenn die Grafik sichtbar sein soll, sonst false
+     */
+    public void setzeSichtbar( boolean sichtbarNeu ) 
+    {
+        super.sichtbarSetzen( sichtbarNeu );
+    }
+    
+    
+    /**
+     * Prueft, od dieses Objekt gerade sichtbar ist. 
+     *
+     * @return  true, wenn die Grafik gerade sichbar ist, sonst false
      */
     public boolean nenneSichtbar()
     {
-        return this.bilder[this.akt_BildNr].sichtbar();
-    }
-
-    
-    /**
-     * Setzt den Mittelpunkt neu.
-     *
-     * @param   x   neue x-Koordinate
-     * @param   y   neue y-Koordinate
-     */
-    public void setzeMittelpunkt(int x, int y)
-    {
-//         super.mittelpunktSetzen( x , y );
-        for ( BildE bild: this.bilder )
-        {
-            bild.mittelpunktSetzen(x, y);
-        }
-    }
-
-    
-    /**
-     * Setzt das Objekt sichtbar / unsichtbar.
-     *
-     * @param   b   'true' = sichtbar, 'false' = unsichtbar
-     */
-    public void setzeSichtbar(boolean b)
-    {
-        this.bilder[this.akt_BildNr].sichtbarSetzen(b);
-    }
-
-    
-    /**
-     * Verschiebt das Objekt auf dem Grafikfenster.
-     *
-     * @param   deltaX  Anzahl an Pixeln, die in x-Richtung verschoben wird ('+' = rechts)
-     * @param   deltaY  Anzahl an Pixeln, die in y-Richtung verschoben wird ('+' = runter)
-     */
-    public void verschiebenUm(float deltaX, float deltaY)
-    {
-//         super.bewegen( deltaX , deltaY );
-        for (BildE bild: this.bilder)
-        {
-            bild.bewegen(deltaX, deltaY);
-        }
+        return super.sichtbar();
     }
     
     
     /**
-     * liefert den Sinus des Drehwinkels der Grafik
-     *
-     * @return  Sinus des aktuellen Drehwinkels
-     */
-    public float sin_Drehwinkel()
-    {
-        return (float)( Math.sin( this.gibDrehung() * Math.PI / 180 ) );
-    }
-    
-    
-    /**
-     * liefert den Cosinus des Drehwinkels der Grafik
-     *
-     * @return  Cosinus des aktuellen Drehwinkels
-     */
-    public float cos_Drehwinkel()
-    {
-        return (float)( Math.cos( this.gibDrehung() * Math.PI / 180 ) );
-    }
-    
-    
-    /**
-     * Dreht die Grafik um einen Winkel
+     * Dreht die Grafik um den angegebenen Winkel. 
      *
      * @param   winkelAenderung     +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void drehenUm(float winkelAenderung)
+    public void drehenUm( float winkelAenderung )
     {
         this.drehenRelativ( -winkelAenderung );
     }
     
     
     /**
-     * Setzt den Drehwinkel auf eine absoluten neuen Wert
+     * Setzt den Drehwinkel auf einen absoluten neuen Wert. 
+     * Die Orientierung unmittelbar nach dem Erzeugen des Objekts entspricht Winkel 0.
      *
      * @param   neuerDrehwinkel     der neue Drehwinkel
      *                              +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
@@ -285,7 +219,7 @@ extends Knoten
     
     
     /**
-     * Nennt den Winkel, um den die Grafik gedreht wurde
+     * Nennt den Winkel, um den die Grafik gegenueber ihrer Erzeugung gedreht wurde. 
      *
      * @return      der Winkel, um den die Grafik gedreht wurde
      *              0: wenn nicht gedreht
@@ -294,6 +228,60 @@ extends Knoten
      */
     public float nenneWinkel()
     {
-        return (float)( -this.gibDrehung() );
+        return (float)( -super.gibDrehung() );
     }
+    
+    
+    /**
+     * Liefert den Sinus des aktuellen Drehwinkels der Grafik. 
+     *
+     * @return  Sinus des aktuellen Drehwinkels
+     */
+    public float sin_Drehwinkel()
+    {
+        return (float)( Math.sin( super.gibDrehung() * Math.PI / 180 ) );
+    }
+    
+    
+    /**
+     * Liefert den Cosinus des aktuellen Drehwinkels der Grafik. 
+     *
+     * @return  Cosinus des aktuellen Drehwinkels
+     */
+    public float cos_Drehwinkel()
+    {
+        return (float)( Math.cos( this.gibDrehung() * Math.PI / 180 ) );
+    }
+    
+    
+    /**
+     * Diese Methode prueft, wie weit der Mittelpunkt dieses Objekts vom Mittelpunkt 
+     * eines anderen Grafik-Objekts in x-Richtung entfernt ist.
+     * 
+     * @param   grafikObjekt    Das andere Grafik-Objekt
+     * 
+     * @return  Abstand (in Pixeln) dieses Rechtecks vom anderen Grafik-Objekt in x-Richtung 
+     *          (>0, wenn dieses Rechteck rechts des anderen Grafik-Objekts liegt)
+     */
+    public int berechneAbstandX( Raum grafikObjekt )
+    {
+        return super.mittelPunkt().x() - grafikObjekt.mittelPunkt().x();
+    }
+    
+    
+    /**
+     * Diese Methode prueft, wie weit der Mittelpunkt dieses Objekts vom Mittelpunkt 
+     * eines anderen Grafik-Objekts in y-Richtung entfernt ist.
+     * 
+     * @param   grafikObjekt    Das andere Grafik-Objekt
+     * 
+     * @return  Abstand (in Pixeln) dieses Kreises vom anderen Grafik-Objekt in y-Richtung 
+     *          (>0, wenn dieser Kreis unterhalb des anderen Grafik-Objekts liegt)
+     */
+    public int berechneAbstandY( Raum grafikObjekt )
+    {
+        return super.mittelPunkt().x() - grafikObjekt.mittelPunkt().y();
+    }
+    
+    
 }

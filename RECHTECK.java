@@ -61,7 +61,7 @@ public class RECHTECK
      */
     public RECHTECK() 
     {
-        this(200, 130);
+        this( 200 , 130 );
     }
     
     
@@ -69,20 +69,21 @@ public class RECHTECK
      * Konstruktor der Klasse <code>RECHTECK</code>. Erstellt ein neues Rechteck mit gegebenen Massen.
      *
      * @param   breite  Breite des Rechtecks
+     * 
      * @param   hoehe   Hoehe des Rechtecks
      */
-    public RECHTECK(int breite, int hoehe) 
+    public RECHTECK( int breite , int hoehe ) 
     {
         this.sichtbar = true;
-        super.sichtbarSetzen(true);
+        super.sichtbarSetzen( true );
         this.farbe = "Rot";
-        super.farbeSetzen(this.farbe);
+        super.farbeSetzen( this.farbe );
         this.breite = breite;
         this.hoehe = hoehe;
-        super.masseSetzen(this.breite, this.hoehe);
+        super.masseSetzen( this.breite , this.hoehe );
         this.M_x = 250;
         this.M_y = 250;
-        super.mittelpunktSetzen((int)this.M_x, (int)this.M_y);
+        super.mittelpunktSetzen( (int)this.M_x , (int)this.M_y );
     }
     
     
@@ -90,16 +91,17 @@ public class RECHTECK
      * Setzt die Hoehe und Breite dieses Rechtecks neu.
      * 
      * @param   breite  Die neue Breite dieses Rechtecks
+     * 
      * @param   hoehe   Die neue Hoehe dieses Rechtecks
      */
-    public void setzeGroesse(int breite, int hoehe) 
+    public void setzeGroesse( int breite , int hoehe ) 
     {
         int x = (int)(this.nenneMx());
         int y = (int)(this.nenneMy());
         this.breite = breite;
         this.hoehe = hoehe;
-        super.masseSetzen(breite, hoehe);
-        super.mittelpunktSetzen(x, y);
+        super.masseSetzen( breite , hoehe );
+        super.mittelpunktSetzen( x , y );
     }
     
     
@@ -108,10 +110,10 @@ public class RECHTECK
      * 
      * @param   farbeNeu    Diese Farbe erhaelt das Rechteck (z.B. "Rot")
      */
-    public void setzeFarbe(String farbeNeu) 
+    public void setzeFarbe( String farbeNeu ) 
     {
         this.farbe = farbeNeu;
-        super.farbeSetzen(farbe);
+        super.farbeSetzen( farbe );
     }
     
     
@@ -119,13 +121,14 @@ public class RECHTECK
      * Setzt den Mittelpunkt dieses Rechtecks neu.
      * 
      * @param   m_x Die X-Koordinate des neuen Mittelpunktes
+     * 
      * @param   m_y Die Y-Koordinate des neuen Mittelpunktes
      */
-    public void setzeMittelpunkt(int x, int y) 
+    public void setzeMittelpunkt( int x , int y ) 
     {
         this.M_x = x;
         this.M_y = y;
-        super.mittelpunktSetzen(x, y);
+        super.mittelpunktSetzen( x , y );
     }
     
     
@@ -136,10 +139,10 @@ public class RECHTECK
      *          Methode dieses Rechteck sichtbar. Ist dieser Wert <code>false</code>, so ist 
      *          nach dem Aufruf dieser Methode dieses Rechteck unsichtbar.
      */
-    public void setzeSichtbar(boolean sichtbarNeu) 
+    public void setzeSichtbar( boolean sichtbarNeu ) 
     {
         this.sichtbar = sichtbarNeu;
-        super.sichtbarSetzen(sichtbarNeu);
+        super.sichtbarSetzen( sichtbarNeu );
     }
     
     
@@ -147,13 +150,14 @@ public class RECHTECK
      * Verschiebt dieses Rechteck um eine Verschiebung - angegeben durch ein "Delta X" und "Delta Y".
      * 
      * @param   deltaX  Der X Anteil dieser Verschiebung. Positive Werte verschieben nach rechts, negative nach links.
+     * 
      * @param   deltaY  Der Y Anteil dieser Verschiebung. Positive Werte verschieben nach unten, negative nach oben.
      */
-    public void verschiebenUm(float deltaX, float deltaY) 
+    public void verschiebenUm( float deltaX , float deltaY ) 
     {
         this.M_x = this.M_x + deltaX;
         this.M_y = this.M_y + deltaY;
-        super.bewegen(deltaX, deltaY);
+        super.bewegen( deltaX , deltaY );
     }
     
     
@@ -164,9 +168,9 @@ public class RECHTECK
      * 
      * @return  true, wenn sich die beiden Objekte ueberschneiden
      */
-    public boolean beruehrt(Raum r) 
+    public boolean beruehrt( Raum r ) 
     {
-        return super.schneidet(r);
+        return super.schneidet( r );
     }
     
     
@@ -174,35 +178,36 @@ public class RECHTECK
      * Testet, ob ein Punkt beruehrt wird.
      *
      * @param   x   x-Koordinate des Punkts (Pixel)
+     * 
      * @param   y   x-Koordinate des Punkts (Pixel)
      * 
      * @return      true, wenn Punkt innerhalb der Grafik
      */
-    public boolean beinhaltetPunkt(int x, int y) 
+    public boolean beinhaltetPunkt( int x , int y ) 
     {
-        return super.beinhaltet( new ea.Punkt(x, y) );
+        return super.beinhaltet( new ea.Punkt(x,y) );
     }
     
        
     /**
-     * Diese Methode gibt die x-Koordinate des Mittelpunkts dieses Rechtecks zurueck.
+     * Diese Methode gibt die x-Koordinate des Mittelpunkts dieses Dreiecks zurueck.
      * 
-     * @return  Die aktuelle x-Koordinate des Mittelpunktes dieses Rechtecks
+     * @return  Die aktuelle x-Koordinate des Mittelpunktes dieses Dreiecks
      */
-    public float nenneMx()
+    public int nenneMx()
     {
-        return this.M_x;
+        return (int)( Math.round(this.M_x) );
     }
     
     
     /**
-     * Diese Methode gibt die y-Koordinate des Mittelpunkts dieses Rechtecks zurueck.
+     * Diese Methode gibt die y-Koordinate des Mittelpunkts dieses Kreises zurueck.
      * 
-     * @return  Die aktuelle y-Koordinate des Mittelpunktes dieses Rechtecks
+     * @return  Die aktuelle y-Koordinate des Mittelpunktes dieses Kreises
      */
-    public float nenneMy()
+    public int nenneMy()
     {
-        return this.M_y;
+        return (int)( Math.round(this.M_y) );
     }
     
     
@@ -258,7 +263,7 @@ public class RECHTECK
      * 
      * @return  Abstand (in Pixeln) dieses Rechtecks vom anderen Grafik-Objekt in x-Richtung (>0, wenn dieses Rechteck rechts des anderen Grafik-Objekts liegt)
      */
-    public int berechneAbstandX(Raum grafikObjekt)
+    public int berechneAbstandX( Raum grafikObjekt )
     {
         return (int)(this.M_x - grafikObjekt.mittelPunkt().x());
     }
@@ -272,7 +277,7 @@ public class RECHTECK
      * 
      * @return  Abstand (in Pixeln) dieses Rechtecks vom anderen Grafik-Objekt in y-Richtung (>0, wenn dieses Rechteck unterhalb des anderen Grafik-Objekts liegt)
      */
-    public int berechneAbstandY(Raum grafikObjekt)
+    public int berechneAbstandY( Raum grafikObjekt )
     {
         return (int)(this.M_y - grafikObjekt.mittelPunkt().y());
     }
@@ -306,7 +311,7 @@ public class RECHTECK
      * @param   winkelAenderung     +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void drehenUm(float winkelAenderung)
+    public void drehenUm( float winkelAenderung )
     {
         this.drehenRelativ( -winkelAenderung );
     }
@@ -319,7 +324,7 @@ public class RECHTECK
      *                              +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void setzeDrehwinkel(float neuerDrehwinkel)
+    public void setzeDrehwinkel( float neuerDrehwinkel )
     {
         this.drehenAbsolut( -neuerDrehwinkel );
     }
@@ -338,6 +343,5 @@ public class RECHTECK
         return (float)( -this.gibDrehung() );
     }
     
-
     
 }

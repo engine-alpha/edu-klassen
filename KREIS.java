@@ -55,7 +55,7 @@ public class KREIS
      */
     public KREIS() 
     {
-        this(50);
+        this( 50 );
     }
     
     
@@ -64,17 +64,17 @@ public class KREIS
      *
      * @param   rNeu    Der radius des Kreises
      */
-    public KREIS(int rNeu) 
+    public KREIS( int rNeu ) 
     {
         this.sichtbar = true;
-        super.sichtbarSetzen(true);
+        super.sichtbarSetzen( true );
         this.farbe = "Blau";
-        super.farbeSetzen(this.farbe);
+        super.farbeSetzen( this.farbe );
         this.radius = rNeu;
-        super.radiusSetzen(this.radius);
+        super.radiusSetzen( this.radius );
         this.M_x = 350;
         this.M_y = 350;
-        super.mittelpunktSetzen((int)this.M_x, (int)this.M_y);
+        super.mittelpunktSetzen( (int)this.M_x , (int)this.M_y );
     }
     
     
@@ -83,10 +83,10 @@ public class KREIS
      * 
      * @param   farbeNeu    Diese Farbe erhaelt der Kreis (z.B. "Rot")
      */
-    public void setzeFarbe(String farbeNeu) 
+    public void setzeFarbe( String farbeNeu ) 
     {
         this.farbe = farbeNeu;
-        super.farbeSetzen(farbe);
+        super.farbeSetzen( farbe );
     }
    
     
@@ -94,13 +94,14 @@ public class KREIS
      * Setzt den Mittelpunkt dieses Kreises neu.
      * 
      * @param x   Die X-Koordinate des Mittelpunktes.
+     * 
      * @param y   Die Y-Koordinate des Mittelpunktes.
      */
-    public void setzeMittelpunkt(int x, int y) 
+    public void setzeMittelpunkt( int x , int y ) 
     {
         this.M_x = x;
         this.M_y = y;
-        super.mittelpunktSetzen(x, y);
+        super.mittelpunktSetzen( x , y );
     }
     
     
@@ -109,13 +110,13 @@ public class KREIS
      * 
      * @param   radius  Der neue Radius (in Pixel)
      */
-    public void setzeRadius(int radius) 
+    public void setzeRadius( int radius ) 
     {
         int x = (int)( this.nenneMx() );
         int y = (int)( this.nenneMy() );
         this.radius = radius;
-        super.radiusSetzen(radius);
-        super.mittelpunktSetzen(x, y);
+        super.radiusSetzen( radius );
+        super.mittelpunktSetzen( x , y );
     }
     
     
@@ -125,10 +126,10 @@ public class KREIS
      * @param   sichtbarNeu Ist dieser Wert <code>true</code>, ist nach dem Aufruf dieser Methode dieser Kreis 
      *          sichtbar. Ist dieser Wert <code>false</code>, so ist nach dem Aufruf dieser Methode dieser Kreis unsichtbar.
      */
-    public void setzeSichtbar(boolean sichtbarNeu) 
+    public void setzeSichtbar( boolean sichtbarNeu ) 
     {
         this.sichtbar = sichtbarNeu;
-        super.sichtbarSetzen(sichtbarNeu);
+        super.sichtbarSetzen( sichtbarNeu );
     }
     
     
@@ -136,13 +137,14 @@ public class KREIS
      * Verschiebt diesen Kreis um eine Verschiebung - angegeben durch ein "Delta X" und "Delta Y".
      * 
      * @param   deltaX  Der X Anteil dieser Verschiebung. Positive Werte verschieben nach rechts, negative nach links.
+     * 
      * @param   deltaY  Der Y Anteil dieser Verschiebung. Positive Werte verschieben nach unten, negative nach oben.
      */
-    public void verschiebenUm(float deltaX, float deltaY) 
+    public void verschiebenUm( float deltaX , float deltaY ) 
     {
         this.M_x = this.M_x + deltaX;
         this.M_y = this.M_y + deltaY;
-        this.bewegen(deltaX, deltaY);
+        this.bewegen( deltaX , deltaY );
     }
     
     
@@ -153,9 +155,9 @@ public class KREIS
      * 
      * @return  true, wenn sich die beiden Objekte ueberschneiden
      */
-    public boolean beruehrt(Raum r) 
+    public boolean beruehrt( Raum r ) 
     {
-        return super.schneidet(r);
+        return super.schneidet( r );
     }
     
     
@@ -163,24 +165,25 @@ public class KREIS
      * Methode beinhaltetPunkt
      *
      * @param   x   x-Koordinate des Punkts (Pixel)
+     * 
      * @param   y   x-Koordinate des Punkts (Pixel)
      * 
      * @return      true, wenn Punkt innerhalb der Grafik
      */
-    public boolean beinhaltetPunkt(int x, int y) 
+    public boolean beinhaltetPunkt( int x , int y ) 
     {
-        return super.beinhaltet( new ea.Punkt(x, y) );
+        return super.beinhaltet( new ea.Punkt(x,y) );
     }
     
     
     /**
-     * Diese Methode gibt die x-Koordinate des Mittelpunkts dieses Kreises zurueck.
+     * Diese Methode gibt die x-Koordinate des Mittelpunkts dieses Dreiecks zurueck.
      * 
-     * @return  Die aktuelle x-Koordinate des Mittelpunktes dieses Kreises
+     * @return  Die aktuelle x-Koordinate des Mittelpunktes dieses Dreiecks
      */
-    public float nenneMx()
+    public int nenneMx()
     {
-        return this.M_x;
+        return (int)( Math.round(this.M_x) );
     }
     
     
@@ -189,9 +192,9 @@ public class KREIS
      * 
      * @return  Die aktuelle y-Koordinate des Mittelpunktes dieses Kreises
      */
-    public float nenneMy()
+    public int nenneMy()
     {
-        return this.M_y;
+        return (int)( Math.round(this.M_y) );
     }
     
     
@@ -236,7 +239,7 @@ public class KREIS
      * 
      * @return  Abstand (in Pixeln) dieses Rechtecks vom anderen Grafik-Objekt in x-Richtung (>0, wenn dieses Rechteck rechts des anderen Grafik-Objekts liegt)
      */
-    public int berechneAbstandX(Raum grafikObjekt)
+    public int berechneAbstandX( Raum grafikObjekt )
     {
         return (int)( this.M_x - grafikObjekt.mittelPunkt().x() );
     }
@@ -250,7 +253,7 @@ public class KREIS
      * 
      * @return  Abstand (in Pixeln) dieses Kreises vom anderen Grafik-Objekt in y-Richtung (>0, wenn dieser Kreis unterhalb des anderen Grafik-Objekts liegt)
      */
-    public int berechneAbstandY(Raum grafikObjekt)
+    public int berechneAbstandY( Raum grafikObjekt )
     {
         return (int)( this.M_y - grafikObjekt.mittelPunkt().y() );
     }
@@ -284,7 +287,7 @@ public class KREIS
      * @param   winkelAenderung     +: mathematisch positiver Drehsinn (gegen den Uhrzeigersinn)
      *                              -: mathematisch negativer Drehsinn (im Uhrzeigersinn)
      */
-    public void drehenUm(float winkelAenderung)
+    public void drehenUm( float winkelAenderung )
     {
         this.drehenRelativ( -winkelAenderung );
     }
@@ -315,7 +318,6 @@ public class KREIS
     {
         return (float)( -this.gibDrehung() );
     }
-    
     
 
 }
